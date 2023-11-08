@@ -17,11 +17,11 @@ let initial_cards = [
 
 function hideForm() {
   document.querySelector("#myForm").classList.add('d-none')
-  document.querySelector("cards").classList.remove('d-none')
+  document.querySelector("#cards").classList.remove('d-none')
 }
 function hideCards() {
   document.querySelector("#myForm").classList.remove('d-none')
-  document.querySelector("cards").classList.add('d-none')
+  document.querySelector("#cards").classList.add('d-none')
 }
 
 function getCards() {
@@ -80,10 +80,21 @@ function display_cards() {
 
   document.querySelector("#cards").innerHTML = cards_html
 
+
+  document.querySelectorAll('.to-delete').forEach(function(btn){
+    btn.onclick = function(event){
+      if(confirm("Are you sure you want to delete this card?")){
+        cards.splice(event.target.closest('.col').dataset.ndx, 1)
+        localStorage.setItem("cards", JSON.stringify(cards))
+        display_cards()
+      }
+    }
+  })
   hideForm()
 }
 
 
-document.querySelector("#new_cards").onclick = hideCards
+document.querySelector("#new_card").onclick = hideCards
 document.querySelector("#myForm").onsubmit = addNewCard
+document.querySelector(".to-cancel").onclick = hideForm
 display_cards()
